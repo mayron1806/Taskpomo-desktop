@@ -1,21 +1,25 @@
-import { FormEvent, useState, useRef, useEffect } from "react";
-
-import { Priority as p } from "../../enum/priority";
-import { TaskItemType } from "../../types/taskItemType";
-
-import * as C from "./style";
-
+import { useState, useRef, useEffect, FormEvent, useContext } from "react";
+import { TaskItemType } from "../../../types/taskItemType";
+import ErrorMessage from "../../ErrorMessage";
+import Label from "../../Label";
+import SendButton from "../../SendButton";
 import { v4 as getID } from "uuid";
-
-import Label from "../Label";
-import ErrorMessage from "../ErrorMessage";
-import SendButton from "../SendButton";
+import { Priority as p } from "../../../enum/priority";
+import * as M from "../style";
+import * as C from "./style";
+import Modal from "react-modal";
+import { ModalStyle } from "../../../styles/ModalStyle";
+import { ThemeContext } from "styled-components";
+import { IoClose } from "react-icons/io5";
 
 type props = {
-    addTask: (task: TaskItemType) => void,
-    closeForm: () => void
+  isOpen: boolean,
+  closeModal: () => void
 }
-const AddTaskForm = ({addTask, closeForm}: props) => {
+
+const TaskAdd = ({isOpen, closeModal}: props) => {  
+    const theme = useContext(ThemeContext);
+
     const [name, setName] = useState<string>("");
     const [priority, setPriority] = useState<p>(p.LOW);
     const [description, setDescription] = useState<string>("");
@@ -33,7 +37,7 @@ const AddTaskForm = ({addTask, closeForm}: props) => {
 
     const resetForm = () => {
         setName("");
-        setPriority(0);
+        setPriority(p.LOW);
         setDescription("");
         setErrorMessage("");
     }
@@ -51,15 +55,19 @@ const AddTaskForm = ({addTask, closeForm}: props) => {
                 description: description
             }
             resetForm();
-            addTask(task);
-            closeForm();
+            closeModal();
             return;
         }
         nameInputRef.current?.classList.add("error");
         setErrorMessage("Você precisa peencher o campo nome.");
     }
     return(
-        <form onSubmit={(e) => sendForm(e)}>
+      <Modal isOpen={isOpen} style={ModalStyle(theme.transparent)}>
+        <M.Form onSubmit={(e) => sendForm(e)}>
+            <M.Header>
+                <M.Title>Adicionar tarefa</M.Title>
+                <IoClose onClick={()=> closeModal()} className="close-modal"/>
+            </M.Header>
             <Label htmlFor="name">Nome da tarefa</Label>
             <C.Input
                 ref={nameInputRef} 
@@ -91,7 +99,8 @@ const AddTaskForm = ({addTask, closeForm}: props) => {
             />
             <ErrorMessage>{errorMessage}</ErrorMessage>
             <SendButton value="Criar"/>
-        </form>
+        </M.Form>
+      </Modal>
     )
 }
-export default AddTaskForm;
+export default TaskAdd;

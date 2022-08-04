@@ -41,6 +41,12 @@ export const Input = styled.input.attrs({type:"number"})`
     height:100%;
     padding:1rem;
     width: 100%;
-    background-color: ${props=> props.theme.main};
+    background-color: ${props=> props.theme.transparent};
     color: ${props=> props.theme.text_color};
+    // remove arrows
+    ::-webkit-outer-spin-button, ::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    -moz-appearance: textfield;
 `;

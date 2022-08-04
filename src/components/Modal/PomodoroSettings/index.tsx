@@ -2,23 +2,26 @@ import { useContext, useState, useRef, FormEvent, useEffect } from "react";
 import { GoUnmute, GoMute } from "react-icons/go";
 import { IoClose } from "react-icons/io5";
 import Modal from "react-modal";
-import { MIN_BREAK_TIME, MIN_WORK_TIME } from "../../config/MinTimes";
-import { ModalStyle } from "../../styles/ModalStyle";
-import { getMinutes } from "../../utils/TimeFormat";
-import ErrorMessage, { ErrorType } from "../ErrorMessage";
-import Label from "../Label";
-import { PomodoroContext } from "../Pomodoro";
-import SendButton from "../SendButton";
-import TimeInput from "../TimeInput";
+import { ThemeConsumer, ThemeContext } from "styled-components";
+import { MIN_BREAK_TIME, MIN_WORK_TIME } from "../../../config/MinTimes";
+import { ModalStyle } from "../../../styles/ModalStyle";
+import { getMinutes } from "../../../utils/TimeFormat";
+import ErrorMessage, { ErrorType } from "../../ErrorMessage";
+import Label from "../../Label";
+import { PomodoroContext } from "../../Pomodoro";
+import SendButton from "../../SendButton";
+import TimeInput from "../../TimeInput";
 import * as C from "./style";
+import * as M from "../style";
 
 type props = {
   isOpen: boolean,
   closeModal: ()=> void
 }
-const PomodoroSettingsModal = ({isOpen, closeModal} : props) => {
+const PomodoroSettings = ({isOpen, closeModal} : props) => {
+    const theme = useContext(ThemeContext);
     const pomodoro = useContext(PomodoroContext);
-
+    
     const [settingsWorkTime, setSettingsWorkTime] = useState<number>(pomodoro.workTime.value);
     const [settingsBreakTime, setSettingsBreakTime] = useState<number>(pomodoro.breakTime.value);
     const [settingsCanPlayAudio, setSettingsCanPlayAudio] = useState<boolean>(pomodoro.canPlayAudio.value);
@@ -72,12 +75,12 @@ const PomodoroSettingsModal = ({isOpen, closeModal} : props) => {
         }
     }, [settingsWorkTime, settingsBreakTime])
   return(
-    <C.ModalContainer isOpen={isOpen}>
-        <C.Form onSubmit={(e)=> saveTimes(e)}>
-            <C.Header>
-                <C.Title>Configurar</C.Title>
+    <Modal isOpen={isOpen} style={ModalStyle(theme.transparent)}>
+        <M.Form onSubmit={(e)=> saveTimes(e)}>
+            <M.Header>
+                <M.Title>Configurar</M.Title>
                 <IoClose onClick={()=> closeModal()} className="close-modal"/>
-            </C.Header>
+            </M.Header>
             <C.TimeBlock>
                 <Label htmlFor="work">Tempo de trabalho:(min)</Label>
                 <TimeInput 
@@ -97,7 +100,7 @@ const PomodoroSettingsModal = ({isOpen, closeModal} : props) => {
                 />
             </C.TimeBlock>
             <C.TimeBlock>
-                <Label htmlFor="audio">Ativar som:</Label>
+                <Label htmlFor="audio">Som:</Label>
                 <C.Audio id="audio"onClick={() => setSettingsCanPlayAudio(!settingsCanPlayAudio)}>
                     {
                         settingsCanPlayAudio &&
@@ -112,8 +115,8 @@ const PomodoroSettingsModal = ({isOpen, closeModal} : props) => {
                 <ErrorMessage type={error.type}>{error.message}</ErrorMessage>
             }
             <SendButton value="Salvar"/>
-        </C.Form>
-    </C.ModalContainer>
+        </M.Form>
+    </Modal>
   )
 }
-export default PomodoroSettingsModal;
+export default PomodoroSettings;

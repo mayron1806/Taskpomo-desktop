@@ -7,7 +7,7 @@ import Timer from "../Timer";
 import * as C from "./style";
 
 import {IoSettingsOutline} from "react-icons/io5"
-import PomodoroSettingsModal from "../PomodoroSettinsModal";
+import PomodoroSettings from "../Modal/PomodoroSettings";
 
 const MINUTES_MULTIPLY = 60;
 
@@ -61,7 +61,7 @@ const Pomodoro = memo(() => {
                 <C.TimerContainer>
                     <Timer />
                 </C.TimerContainer>
-                <PomodoroSettingsModal isOpen={settingsIsOpen} closeModal={closeSettings}/>
+                <PomodoroSettings isOpen={settingsIsOpen} closeModal={closeSettings}/>
             </PomodoroContext.Provider>
         </div>
     )

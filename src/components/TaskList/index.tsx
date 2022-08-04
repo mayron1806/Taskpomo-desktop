@@ -5,8 +5,6 @@ import { TaskItemType } from "../../types/taskItemType";
 import { TaskListType } from "../../types/taskListType";
 import Item from "../Item";
 import Block from "../Block";
-import Modal from "../Modal";
-import AddTaskForm from "../AddTaskForm";
 import Title from "../Title";
 
 import * as C from "./style";
@@ -14,6 +12,7 @@ import * as C from "./style";
 import { IoIosAddCircleOutline } from "react-icons/io";
 
 import { Priority } from "../../enum/priority";
+import TaskAdd from "../Modal/TaskAdd";
 
 enum TaskListFilter{
     ALL,
@@ -21,6 +20,7 @@ enum TaskListFilter{
     INCOMPLETE
 }
 const TaskList = () => {
+    
     // TAREFAS ---------------------------------------------------------------------------------
     // lista com todas tarefas
     const {
@@ -77,42 +77,18 @@ const TaskList = () => {
 
 
     // MODAL -----------------------------------------------------------------------------------
-    const [modalIsActive, setModalIsActive] = useState<boolean>(false);
-    const disableModal = () => setModalIsActive(false);
-    const enableModal = () => setModalIsActive(true);
+    const [addTaskIsOpen, setAddTaskIsOpen] = useState<boolean>(false);
+    const openAddTask = () => setAddTaskIsOpen(true);
+    const closeAddTask = () => setAddTaskIsOpen(false);
 
-    const [modalTitle, setModalTitle] = useState<string>("");
-    const [modalTemplate, setModalTemplate] = useState<JSX.Element>();
-
-    const openModal = (title: string, template: JSX.Element | undefined) => {
-        setModalTitle(title);
-        setModalTemplate(template);
-        enableModal();
-    }
-    // ativa o modal com a descrição da tarefa
-    const openDescription = (title: string, description: string | undefined) => {
-        const template = description !== undefined ? <p>{description}</p> : undefined;
-        openModal(title, template);
-    }
-    // ativa o modal com formulario de adicionar tarefa
-    const openFormAddTask = () => {
-        openModal("Criar nova tarefa", <AddTaskForm addTask={addNewTask} closeForm={() => disableModal()}/>);
-    };
-    
     return(
         <div>
-            <Modal
-                title={modalTitle}
-                template={modalTemplate}
-                disableModal={() => disableModal()}
-                isActive={modalIsActive}
-            />
             <C.Header>
                 <Title title="Tarefas"/>
                 <IoIosAddCircleOutline 
                     className="add-task" 
                     size={30}
-                    onClick={()=> openFormAddTask()}
+                    onClick={()=> openAddTask()}
                 />
             </C.Header>
             <C.BlocksContainer>
@@ -151,13 +127,13 @@ const TaskList = () => {
                                 task={task}
                                 changeTaskState={changeTaskState} 
                                 deleteTask={deleteTask}
-                                showDescription={openDescription}
                             />
                         ))
                     }
                     </tbody>
                 </table>
             </C.TableContainer>
+            <TaskAdd isOpen={addTaskIsOpen} closeModal={closeAddTask}/>
         </div>
     )
 }

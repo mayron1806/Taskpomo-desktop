@@ -24,13 +24,14 @@ const vibrateAnim = keyframes`
 
 /* COMPONENTS --------------------------------------------------------------------------------- */
 export const Input = styled.input.attrs({type:"text"})`
-    font-size: 1.8rem;
-    padding: 0.5rem;
-    border: 1px solid var(--purple);
-    border-radius: 5px;
-    box-shadow: 2px 2px 5px var(--light-purple);
+    font-size:1.8rem;
+    height:100%;
+    padding:1rem;
     width: 100%;
-    transition:0.5s;
+    background-color: ${props=> props.theme.transparent};
+    color: ${props=> props.theme.text_color};
+    border: 1px solid var(--purple);
+    border-radius: 10px;
     &.error{
         border-color: var(--red);
         box-shadow: 2px 2px 5px transparent;
@@ -38,20 +39,21 @@ export const Input = styled.input.attrs({type:"text"})`
     }
 `;
 export const Text = styled.textarea`
-    font-size: 1.8rem;
+    font-size:1.8rem;
+    height:100%;
+    padding:1rem;
     width: 100%;
+    background-color: ${props=> props.theme.transparent};
+    color: ${props=> props.theme.text_color};
     border: 1px solid var(--purple);
-    border-radius: 5px;
-    box-shadow: 2px 2px 5px var(--light-purple);
-    padding: 0.5rem;
+    border-radius: 10px;
 `;
 export const PriorityContainer = styled.div` margin-top: 2rem; `;
 export const Select = styled.select`
     padding: 0.5rem;
     border: 1px solid var(--purple);
     border-radius: 10px;
-    box-shadow: 2px 2px 5px var(--light-purple);
     font-size: 1.8rem;
-    font-family: 'Roboto Mono', monospace;
-    color: var(--black);
+    background-color: ${props=> props.theme.transparent};
+    color: ${props=> props.theme.text_color};
 `;

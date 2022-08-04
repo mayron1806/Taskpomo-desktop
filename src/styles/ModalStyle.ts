@@ -1,13 +1,18 @@
-export const ModalStyle = {
-  content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    transform: 'translate(-50%, -50%)',
-    backgroundColor: "var(--black-light)",
-    border: 0,
-    height: "fit-content"
-  },
-  overlay: {backgroundColor: "rgba(0,0,0,0.1)"}
+export const ModalStyle = (backgroundColor: string) => {
+
+  return{
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      backdropFilter: "blur(5px)",
+      transform: 'translate(-50%, -50%)',
+      backgroundColor: backgroundColor,
+      border: 0,
+      height: "fit-content",
+      borderRadius: "10px"
+    },
+    overlay: {backgroundColor: "rgba(0,0,0,0.1)"}
+  }
 }
