@@ -49,7 +49,7 @@ const PomodoroSettings = ({isOpen, closeModal} : props) => {
         pomodoro.workTime.setValue(settingsWorkTime);
         pomodoro.breakTime.setValue(settingsBreakTime);
         pomodoro.canPlayAudio.setValue(settingsCanPlayAudio);
-        close();
+        closeModal();
     }
     // remove a classe erro ao mudar o input, e limpa a mensagem de erro
     useEffect(()=>{

@@ -133,7 +133,11 @@ const TaskList = () => {
                     </tbody>
                 </table>
             </C.TableContainer>
-            <TaskAdd isOpen={addTaskIsOpen} closeModal={closeAddTask}/>
+            <TaskAdd 
+              isOpen={addTaskIsOpen} 
+              closeModal={closeAddTask} 
+              addTask={addNewTask}
+            />
         </div>
     )
 }

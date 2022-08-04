@@ -14,10 +14,11 @@ import { IoClose } from "react-icons/io5";
 
 type props = {
   isOpen: boolean,
-  closeModal: () => void
+  closeModal: () => void,
+  addTask: (new_task: TaskItemType) => void
 }
 
-const TaskAdd = ({isOpen, closeModal}: props) => {  
+const TaskAdd = ({isOpen, closeModal, addTask}: props) => {  
     const theme = useContext(ThemeContext);
 
     const [name, setName] = useState<string>("");
@@ -54,6 +55,7 @@ const TaskAdd = ({isOpen, closeModal}: props) => {
                 priority: priority,
                 description: description
             }
+            addTask(task);
             resetForm();
             closeModal();
             return;
