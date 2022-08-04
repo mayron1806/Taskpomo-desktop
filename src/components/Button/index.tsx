@@ -1,11 +1,27 @@
-import { ReactNode, ButtonHTMLAttributes } from 'react'
+import * as C from "./style";
+import sound from "../../assets/sounds/click.mp3";
+import { useAudio } from "../../hooks/useAudio";
 
-import { Container } from './styles'
-
-type ButtonProps = {
-  children: ReactNode;
-} & ButtonHTMLAttributes<HTMLButtonElement>;
-
-export function Button (props: ButtonProps) {
-  return <Container type="button" {...props} />
+type props = { 
+    text: string, 
+    action: () => void, 
+    active?: boolean, 
+    playSound?: boolean,
+    filled?: boolean 
 }
+const Button = ({ text, action, active = false, playSound = false }: props) => {
+    const audio = useAudio(sound);
+    const click = () => {
+        if(playSound){
+            audio.setSound(sound);
+            audio.play();
+        }
+        action();
+    }
+    return (
+        <C.Container active={active} onClick={() => click()}>
+            <div className="front">{text}</div>
+        </C.Container>
+    )
+}
+export default Button;
