@@ -13,6 +13,7 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 
 import { Priority } from "../../enum/priority";
 import TaskAdd from "../Modal/TaskAdd";
+import ShowTask from "../Modal/ShowTask";
 
 enum TaskListFilter{
     ALL,
@@ -27,7 +28,11 @@ const TaskList = () => {
         state: allTasks,
         setState: setAllTasks
     } = useLocalState<TaskListType>("tasks" ,[]);
-
+    const [selectedTaskID, setSelectedTaskID] = useState<string>("");
+    const closeSelectedTask = () => setSelectedTaskID("");
+    
+    const selectedTask = allTasks.find(task => task.id === selectedTaskID);
+    
     const addNewTask = (task: TaskItemType) => setAllTasks([...allTasks, task]);
 
     // filtra as tarefas para definir quais serão exibidas
@@ -76,10 +81,11 @@ const TaskList = () => {
     const incomplete_task_count = allTasks.filter(task => !task.complete).length;
 
 
-    // MODAL -----------------------------------------------------------------------------------
+    // MODALS -----------------------------------------------------------------------------------
     const [addTaskIsOpen, setAddTaskIsOpen] = useState<boolean>(false);
     const openAddTask = () => setAddTaskIsOpen(true);
     const closeAddTask = () => setAddTaskIsOpen(false);
+
 
     return(
         <div>
@@ -127,17 +133,29 @@ const TaskList = () => {
                                 task={task}
                                 changeTaskState={changeTaskState} 
                                 deleteTask={deleteTask}
+                                selectTask={(task_id: string) => setSelectedTaskID(task_id)}
                             />
                         ))
                     }
                     </tbody>
                 </table>
             </C.TableContainer>
+            {/* MODALS */}
             <TaskAdd 
               isOpen={addTaskIsOpen} 
               closeModal={closeAddTask} 
               addTask={addNewTask}
             />
+            {
+                selectedTask !== undefined &&
+                <ShowTask 
+                    isOpen={selectedTask !== undefined} 
+                    closeModal={closeSelectedTask}
+                    title={selectedTask.name}
+                    content={selectedTask.description}
+                />
+            }
+            {/* END MODALS */}
         </div>
     )
 }

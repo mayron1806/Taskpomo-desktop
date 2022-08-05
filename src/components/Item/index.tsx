@@ -7,8 +7,9 @@ type props = {
     task: TaskItemType,
     deleteTask: (id: string) => void,
     changeTaskState: (id: string, complete?: boolean, priority?: Priority) => void,
+    selectTask: (task_id: string) => void
 }
-const Item = ({task, deleteTask, changeTaskState }: props)=>{
+const Item = ({task, deleteTask, changeTaskState, selectTask }: props)=>{
     const changePriority = () => {
         const priorityLenght = Object.keys(Priority).length / 2;
        // se estiver no ultimo indice vai voltar para o comeco
@@ -24,7 +25,7 @@ const Item = ({task, deleteTask, changeTaskState }: props)=>{
             <C.TableData>
                 <C.CheckBox active={task.complete} onClick={()=> changeTaskState(task.id, !task.complete)}/>
             </C.TableData>
-            <C.TableData className="left">
+            <C.TableData className="left" onClick={()=> selectTask(task.id)}>
                 <C.Name complete={task.complete}>{task.name}</C.Name>
             </C.TableData>
             <C.TableData>

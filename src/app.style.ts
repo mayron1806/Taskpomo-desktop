@@ -6,9 +6,12 @@ export const Background = styled.div`
     top: 0;
     left: 0;
     z-index: -1;
-    video{
+    video, img, div.default-background{
         min-width: 100%;
         min-height: 100%;
+    }
+    div.default-background{
+        background-color: ${props => props.theme.main};
     }
 `;
 export const Main = styled.main`
@@ -16,12 +19,29 @@ export const Main = styled.main`
     display: flex;
     justify-content: center;
 `;
+export const Settings = styled.div`
+    z-index: 100;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-right: 2rem;
+    background-color: ${props => props.theme.transparent};
+    border-radius: 10px;
+    padding: 1rem;
+    cursor: pointer;
+    svg{
+        color: var(--white);
+        font-size: 3rem;
+    }
+`;
+   
 export const Content = styled.div`
     padding: 2rem;
     display: grid;
     height: 100%;
     max-width: 1000px;
-    grid-template-columns: auto 50px;
+    grid-template-columns: auto auto;
     grid-template-rows: minmax(200px, 20vh, 35vh) 1fr 1fr;
     grid-template-areas: 
     "wellcome theme"

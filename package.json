@@ -15,8 +15,10 @@
   "dependencies": {
     "@types/react-modal": "^3.13.1",
     "@types/uuid": "^8.3.4",
+    "fs": "^0.0.1-security",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "react-dropzone": "^14.2.2",
     "react-hot-loader": "4.13.0",
     "react-icons": "^4.4.0",
     "react-modal": "^3.15.1",
@@ -116,5 +118,10 @@
         }
       ]
     }
+  },
+  "browser": {
+    "fs": false,
+    "path": false,
+    "os": false
   }
 }

@@ -11,13 +11,13 @@ const ThemeController = ({ theme, setTheme }: props) => {
     return(
         <C.Container className="theme">
             <C.Button 
-                className={theme.name === "light" ? "top active" : "top"}
+                className={theme.name === "light" ? "active" : ""}
                 onClick={()=> setTheme(lightTheme)}
-            ><C.TextButton><MdOutlineLightMode size={25}/></C.TextButton></C.Button>
+            ><MdOutlineLightMode /></C.Button>
             <C.Button
                 onClick={()=> setTheme(darkTheme)}
-                className={theme.name === "dark" ? "bottom active" : "bottom"}
-            ><C.TextButton><MdOutlineDarkMode size={25}/></C.TextButton></C.Button>
+                className={theme.name === "dark" ? "active" : ""}
+            ><MdOutlineDarkMode /></C.Button>
         </C.Container>
     )
 }
