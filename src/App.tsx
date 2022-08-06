@@ -10,15 +10,16 @@ import { useEffect, useState } from 'react';
 import lightTheme from './themes/light';
 import Theme from './types/Theme';
 import { canNotify, getNotificationPermision } from './utils/Notification';
-import video from "./assets/background/bg.mp4";
 import Settings from './components/Modal/Settings';
 import { IoImagesOutline } from 'react-icons/io5';
 import Background from './types/Background';
+import { getBackgrounds } from './services/File';
 
 export function App() {
     const [settingsIsOpen, setSettingsIsOpen] = useState<boolean>(false);
     const openSettings = () => setSettingsIsOpen(true);
     const closeSettings = () => setSettingsIsOpen(false);
+    
     const {
         state: currentTheme,
         setState: setCurrentTheme
@@ -27,6 +28,10 @@ export function App() {
         state: currentBackground,
         setState: setCurrentBackground
     } = useLocalState<Background>("background", {} as Background);
+    useEffect(()=>{
+        console.log(currentBackground);
+        
+    },[currentBackground])
     // se nao pode enviar noficação vai pedir permissão quando renderizar o app
     useEffect(()=>{ !canNotify() && getNotificationPermision()}, []);
     return (
@@ -34,39 +39,38 @@ export function App() {
             <ThemeProvider theme={currentTheme.colors}>
                 <C.Background>
                     {
-                        currentBackground.type === "video" &&
-                        <video autoPlay loop>
-                            <source src={currentBackground.path}/>
-                        </video>
+                        currentBackground && currentBackground.type === "video" &&
+                        <video autoPlay loop src={currentBackground.path}></video>
                         || 
-                        currentBackground.type === "image" &&
+                        currentBackground && currentBackground.type === "image" &&
                         <img src={currentBackground.path} alt="imagem de fundo" />
                         ||
-                        <div className='default-background'></div>
+                        <div className='no-background'></div>
                     }
-
-                    
-                    
                 </C.Background>
                 <C.Main>
-                <C.Content>
-                    <Container className='wellcome'>
-                    <Wellcome />
-                    </Container>
-                    <ThemeController theme={currentTheme} setTheme={setCurrentTheme}/>
-                    <Container className="pomodoro">
-                    <Pomodoro />
-                    </Container>
-                    <Container  className="tasks">
-                    <TaskList />
-                    </Container>
-                </C.Content>
+                    <C.Content>
+                        <Container className='wellcome'>
+                            <Wellcome />
+                        </Container>
+                        <ThemeController theme={currentTheme} setTheme={setCurrentTheme}/>
+                        <Container className="pomodoro">
+                            <Pomodoro />
+                        </Container>
+                        <Container  className="tasks">
+                            <TaskList />
+                        </Container>
+                    </C.Content>
                 </C.Main>
                 <C.Settings onClick={()=> openSettings()}>
                     <IoImagesOutline />
                 </C.Settings>
                 {/* MODALS */}
-                <Settings isOpen={settingsIsOpen} closeModal={closeSettings}/>
+                <Settings 
+                    isOpen={settingsIsOpen} 
+                    closeModal={closeSettings} 
+                    setBackground={setCurrentBackground}
+                />
                 {/* END MODALS */}
             </ThemeProvider>
         </>

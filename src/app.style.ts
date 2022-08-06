@@ -6,11 +6,11 @@ export const Background = styled.div`
     top: 0;
     left: 0;
     z-index: -1;
-    video, img, div.default-background{
+    video, img, div.no-background{
         min-width: 100%;
         min-height: 100%;
     }
-    div.default-background{
+    div.no-background{
         background-color: ${props => props.theme.main};
     }
 `;
@@ -21,7 +21,7 @@ export const Main = styled.main`
 `;
 export const Settings = styled.div`
     z-index: 100;
-    position: absolute;
+    position: fixed;
     right: 0;
     top: 50%;
     transform: translateY(-50%);

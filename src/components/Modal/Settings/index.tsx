@@ -1,7 +1,7 @@
 import Modal from "react-modal";
 import * as C from "./style";
 import * as M from "../style";
-import { FormEvent, useCallback, useContext, useEffect, useState } from "react";
+import React, { Dispatch, FormEvent, useContext, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { ThemeContext } from "styled-components";
 import { ModalStyle } from "../../../styles/ModalStyle";
@@ -9,22 +9,24 @@ import { IoClose } from "react-icons/io5";
 import {AiOutlineFile, AiOutlineFileAdd, AiOutlineFileExcel} from "react-icons/ai";
 import SendButton from "../../SendButton";
 import { acceptedFilesFormats, MAX_FILE_SIZE } from "../../../config/Files";
-import { getFiles, saveFiles } from "../../../services/File";
+import { getBackgrounds, saveFiles } from "../../../services/File";
+import Background from "../../../types/Background";
 
 type props ={
     isOpen: boolean,
-    closeModal: () => void
+    closeModal: () => void,
+    setBackground: Dispatch<React.SetStateAction<Background>>
 }
 const dropzoneClass = (isDragAccept : boolean, isDragReject : boolean) => {
     if(isDragAccept) return "accept";
     if(isDragReject) return "reject";
 }
-const Settings = ({isOpen, closeModal}: props) => {
+const Settings = ({isOpen, closeModal, setBackground}: props) => {
     const theme = useContext(ThemeContext);
-    const [files, setFiles] = useState<string[]>([]);
-    useEffect(()=>{
-        setFiles(getFiles());
-    }, [])
+
+    const [files, setFiles] = useState<Background[]>(getBackgrounds());
+    const [isLoading, setIsLoading] = useState<boolean>();
+    const [errorMessage, setErrorMessage] = useState<string>();
     const {
         getRootProps, 
         getInputProps, 
@@ -41,7 +43,24 @@ const Settings = ({isOpen, closeModal}: props) => {
     );
     const sendForm = (e: FormEvent)=>{
         e.preventDefault();
-        saveFiles(acceptedFiles);
+        console.log("aqui");
+        if(acceptedFiles.length === 0){
+            console.log("aqui erro");
+            return setErrorMessage("Escolha uma imagem ou video para ser seu plano de fundo.");
+        }
+
+        setErrorMessage("");
+        setIsLoading(true);
+        saveFiles(acceptedFiles)
+        .then(()=>{
+            setFiles(getBackgrounds());
+        })
+        .catch((error)=>{
+            setErrorMessage(error);
+        })
+        .finally(()=>{
+            setIsLoading(false);
+        })
     }
     return(
         <Modal isOpen={isOpen} style={ModalStyle(theme.transparent)}>
@@ -53,9 +72,9 @@ const Settings = ({isOpen, closeModal}: props) => {
             <C.FileList>
                 {
                     files.map((file)=>(
-                        <C.File>
-                            <p>{file}</p>
-                            <button></button>
+                        <C.File key={file.path}>
+                            <p>{file.name}</p>
+                            <button onClick={()=> setBackground(file)}>Selecionar</button>
                         </C.File>
                     ))
                 }
@@ -95,6 +114,16 @@ const Settings = ({isOpen, closeModal}: props) => {
                         </C.DropzoneText>
                     }
                 </C.Dropzone> 
+                {/* MESSAGES */}
+                {
+                    errorMessage &&
+                    <C.ErrorMessage>{errorMessage}</C.ErrorMessage>
+                }
+                {
+                    isLoading &&
+                    <C.LoadingMessage>Carregando...</C.LoadingMessage>
+                }
+                {/* END MESSAGES */}
                 <SendButton value="Adicionar"/>
             </C.Form>
         </Modal>

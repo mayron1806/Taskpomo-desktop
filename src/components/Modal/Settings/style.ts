@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const Title = styled.h3`
     font-size: 2rem;
@@ -11,11 +11,31 @@ export const Form = styled.form`
     gap: 1rem;
 `;
 export const FileList = styled.div`
-
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-top: 2rem;
 `;  
 export const File = styled.div`
-    font-size: 1.8rem;
-    color: ${props => props.theme.text_color};
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    border-bottom: 1px solid var(--gray);
+    padding-bottom: 0.5rem;
+    p{
+        color: ${props => props.theme.text_color};
+        font-size: 1.8rem;
+    }
+    button{
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        background-color: var(--gray);
+        color: var(--white);
+        cursor: pointer;
+        :hover{
+            background-color: purple;
+        }
+    }
 `;
 export const Dropzone = styled.div`
     background-color: ${props => props.theme.transparent};
@@ -42,4 +62,13 @@ export const DropzoneText = styled.div`
     svg{
         font-size: 2.5rem;
     }
+`;
+const text = styled.p`
+    font-size: 2rem;
+`;
+export const ErrorMessage = styled(text)`
+    color: var(--red);
+`;
+export const LoadingMessage = styled(text)`
+    color: var(--yellow);
 `;
