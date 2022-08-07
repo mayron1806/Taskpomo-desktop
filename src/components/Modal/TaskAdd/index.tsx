@@ -64,7 +64,7 @@ const TaskAdd = ({isOpen, closeModal, addTask}: props) => {
         setErrorMessage("Você precisa peencher o campo nome.");
     }
     return(
-      <Modal isOpen={isOpen} style={ModalStyle(theme.transparent)}>
+      <Modal isOpen={isOpen} style={ModalStyle(theme.transparent)} ariaHideApp={false}>
         <M.Form onSubmit={(e) => sendForm(e)}>
             <M.Header>
                 <M.Title>Adicionar tarefa</M.Title>

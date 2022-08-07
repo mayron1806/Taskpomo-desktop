@@ -1,4 +1,4 @@
-type Theme = {
+type ThemeType = {
     name: string,
     colors: {
         main: string,
@@ -7,4 +7,4 @@ type Theme = {
     }
     
 }
-export default Theme;
+export default ThemeType;

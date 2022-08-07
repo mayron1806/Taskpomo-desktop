@@ -1,14 +1,20 @@
 {
-  "name": "electron-react-typescript",
-  "author": "Diego Fernandes <diego.schell.f@gmail.com>",
-  "version": "2.0.0",
-  "description": "An Electron boilerplate including TypeScript, React and ESLint.",
+  "name": "taskpomo",
+  "author": "Mayron Gonçalves Fernandes <mayronfernandes01@gmail.com>",
+  "version": "0.1",
+  "description": "Gerenciador de tarefas e pomodoro juntos em um so lugar.",
   "main": "./.webpack/main/index.js",
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "release": "electron-forge publish"
+  },
+  "electronBuilder": {
+    "build": {
+        "productName": "Taskpomo",
+        "appId": "com.electron.app.my"
+    }
   },
   "keywords": [],
   "license": "MIT",

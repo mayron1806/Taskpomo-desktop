@@ -1,7 +1,8 @@
-import Background from "../types/Background";
+import BackgroundType from "../types/Background";
+const path = window.require("path");
 
 const fs = window.require("fs");
-const filesDirectory = process.cwd() + "/backgrounds/";
+const filesDirectory = path.join(process.resourcesPath, "backgrounds");
 
 const createBackgroundFolder = () => {
     if(!fs.existsSync(filesDirectory)){
@@ -32,7 +33,7 @@ export const getFilesName = (): string[] => {
 }
 export const getBackgrounds = () => {
     createBackgroundFolder();
-
+    
     const fileNames : string[] = fs.readdirSync(filesDirectory);
     const paths = fileNames.map(file => filesDirectory + file);
     const types = fileNames.map(file => {
@@ -45,7 +46,7 @@ export const getBackgrounds = () => {
     const length = fileNames.length;
     let backgrounds = [];
     for(let i = 0; i < length; i++){
-        const background: Background = {
+        const background: BackgroundType = {
             name: fileNames[i],
             type: types[i],
             path: paths[i]

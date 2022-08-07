@@ -11,7 +11,8 @@ export const ModalStyle = (backgroundColor: string) => {
       backgroundColor: backgroundColor,
       border: 0,
       height: "fit-content",
-      borderRadius: "10px"
+      borderRadius: "10px",
+      minWidth: "400px"
     },
     overlay: {backgroundColor: "rgba(0,0,0,0.1)"}
   }

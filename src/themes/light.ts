@@ -1,6 +1,6 @@
-import Theme from "../types/Theme";
+import ThemeType from "../types/Theme";
 
-const lightTheme : Theme = {
+const lightTheme : ThemeType = {
     name : "light",
     colors: {
         main: "#F5F5F5",

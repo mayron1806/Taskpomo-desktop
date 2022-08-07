@@ -1,6 +1,6 @@
-type Background = {
+type BackgroundType = {
     path: string,
     name: string,
     type: "video" | "image"
 }
-export default Background;
+export default BackgroundType;

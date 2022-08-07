@@ -10,21 +10,22 @@ import {AiOutlineFile, AiOutlineFileAdd, AiOutlineFileExcel} from "react-icons/a
 import SendButton from "../../SendButton";
 import { acceptedFilesFormats, MAX_FILE_SIZE } from "../../../config/Files";
 import { getBackgrounds, saveFiles } from "../../../services/File";
-import Background from "../../../types/Background";
+import BackgroundType from "../../../types/Background";
 
 type props ={
     isOpen: boolean,
     closeModal: () => void,
-    setBackground: Dispatch<React.SetStateAction<Background>>
+    background: BackgroundType,
+    setBackground: Dispatch<React.SetStateAction<BackgroundType>>
 }
 const dropzoneClass = (isDragAccept : boolean, isDragReject : boolean) => {
     if(isDragAccept) return "accept";
     if(isDragReject) return "reject";
 }
-const Settings = ({isOpen, closeModal, setBackground}: props) => {
+const Settings = ({isOpen, closeModal, background, setBackground}: props) => {
     const theme = useContext(ThemeContext);
 
-    const [files, setFiles] = useState<Background[]>(getBackgrounds());
+    const [files, setFiles] = useState<BackgroundType[]>(getBackgrounds());
     const [isLoading, setIsLoading] = useState<boolean>();
     const [errorMessage, setErrorMessage] = useState<string>();
     const {
@@ -43,12 +44,9 @@ const Settings = ({isOpen, closeModal, setBackground}: props) => {
     );
     const sendForm = (e: FormEvent)=>{
         e.preventDefault();
-        console.log("aqui");
         if(acceptedFiles.length === 0){
-            console.log("aqui erro");
             return setErrorMessage("Escolha uma imagem ou video para ser seu plano de fundo.");
         }
-
         setErrorMessage("");
         setIsLoading(true);
         saveFiles(acceptedFiles)
@@ -63,7 +61,7 @@ const Settings = ({isOpen, closeModal, setBackground}: props) => {
         })
     }
     return(
-        <Modal isOpen={isOpen} style={ModalStyle(theme.transparent)}>
+        <Modal isOpen={isOpen} style={ModalStyle(theme.transparent)} ariaHideApp={false}>
             <M.Header>
                 <M.Title>Personalizar</M.Title>
                 <IoClose onClick={()=> closeModal()} className="close-modal"/>
@@ -72,7 +70,10 @@ const Settings = ({isOpen, closeModal, setBackground}: props) => {
             <C.FileList>
                 {
                     files.map((file)=>(
-                        <C.File key={file.path}>
+                        <C.File 
+                            key={file.path} 
+                            className={background.path === file.path ? "selected" : ""}
+                        >
                             <p>{file.name}</p>
                             <button onClick={()=> setBackground(file)}>Selecionar</button>
                         </C.File>

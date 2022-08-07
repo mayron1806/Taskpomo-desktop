@@ -21,7 +21,7 @@ export const File = styled.div`
     justify-content: space-between;
     gap: 2rem;
     border-bottom: 1px solid var(--gray);
-    padding-bottom: 0.5rem;
+    padding: 0.5rem;
     p{
         color: ${props => props.theme.text_color};
         font-size: 1.8rem;
@@ -35,6 +35,9 @@ export const File = styled.div`
         :hover{
             background-color: purple;
         }
+    }
+    &.selected{
+        background-color: ${props => props.theme.transparent};
     }
 `;
 export const Dropzone = styled.div`

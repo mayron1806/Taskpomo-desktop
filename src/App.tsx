@@ -8,12 +8,13 @@ import * as C from "./app.style";
 import { useLocalState } from './hooks/useLocalState';
 import { useEffect, useState } from 'react';
 import lightTheme from './themes/light';
-import Theme from './types/Theme';
+import ThemeType from './types/Theme';
 import { canNotify, getNotificationPermision } from './utils/Notification';
 import Settings from './components/Modal/Settings';
 import { IoImagesOutline } from 'react-icons/io5';
-import Background from './types/Background';
+import BackgroundType from './types/Background';
 import { getBackgrounds } from './services/File';
+import Background from './components/Background';
 
 export function App() {
     const [settingsIsOpen, setSettingsIsOpen] = useState<boolean>(false);
@@ -23,31 +24,18 @@ export function App() {
     const {
         state: currentTheme,
         setState: setCurrentTheme
-    } = useLocalState<Theme>("theme", lightTheme);
+    } = useLocalState<ThemeType>("theme", lightTheme);
     const {
         state: currentBackground,
         setState: setCurrentBackground
-    } = useLocalState<Background>("background", {} as Background);
-    useEffect(()=>{
-        console.log(currentBackground);
-        
-    },[currentBackground])
+    } = useLocalState<BackgroundType>("background", {} as BackgroundType);
+   
     // se nao pode enviar noficação vai pedir permissão quando renderizar o app
     useEffect(()=>{ !canNotify() && getNotificationPermision()}, []);
     return (
         <>
             <ThemeProvider theme={currentTheme.colors}>
-                <C.Background>
-                    {
-                        currentBackground && currentBackground.type === "video" &&
-                        <video autoPlay loop src={currentBackground.path}></video>
-                        || 
-                        currentBackground && currentBackground.type === "image" &&
-                        <img src={currentBackground.path} alt="imagem de fundo" />
-                        ||
-                        <div className='no-background'></div>
-                    }
-                </C.Background>
+                <Background background={currentBackground} />
                 <C.Main>
                     <C.Content>
                         <Container className='wellcome'>
@@ -70,6 +58,7 @@ export function App() {
                     isOpen={settingsIsOpen} 
                     closeModal={closeSettings} 
                     setBackground={setCurrentBackground}
+                    background={currentBackground}
                 />
                 {/* END MODALS */}
             </ThemeProvider>

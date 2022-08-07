@@ -1,6 +1,6 @@
-import Theme from "../types/Theme";
+import ThemeType from "../types/Theme";
 
-const darkTheme : Theme  = {
+const darkTheme : ThemeType  = {
     name: "dark",
     colors: { 
         main: "#222222",

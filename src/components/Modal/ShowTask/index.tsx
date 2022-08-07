@@ -14,7 +14,7 @@ type props = {
 const ShowTask = ({isOpen, closeModal, title, content} : props) => {
 	const theme = useContext(ThemeContext);
 	return(
-		<Modal isOpen={isOpen} style={ModalStyle(theme.transparent)}>
+		<Modal isOpen={isOpen} style={ModalStyle(theme.transparent)} ariaHideApp={false}>
 			<M.Header>
 				<M.Title>{title}</M.Title>
 				<IoClose onClick={()=> closeModal()} className="close-modal"/>

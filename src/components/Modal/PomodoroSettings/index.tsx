@@ -75,7 +75,7 @@ const PomodoroSettings = ({isOpen, closeModal} : props) => {
         }
     }, [settingsWorkTime, settingsBreakTime])
   return(
-    <Modal isOpen={isOpen} style={ModalStyle(theme.transparent)}>
+    <Modal isOpen={isOpen} style={ModalStyle(theme.transparent)} ariaHideApp={false}>
         <M.Form onSubmit={(e)=> saveTimes(e)}>
             <M.Header>
                 <M.Title>Configurar</M.Title>
