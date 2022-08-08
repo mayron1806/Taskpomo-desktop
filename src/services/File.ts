@@ -2,7 +2,9 @@ import BackgroundType from "../types/Background";
 const path = window.require("path");
 
 const fs = window.require("fs");
-const filesDirectory = path.join(process.resourcesPath, "backgrounds");
+const filesDirectory = process.env.NODE_ENV === "development" ? 
+    path.join(process.cwd(), "backgrounds") :
+    path.join(process.resourcesPath, "backgrounds")
 
 const createBackgroundFolder = () => {
     if(!fs.existsSync(filesDirectory)){
@@ -14,7 +16,7 @@ export const saveFiles = async (files : File[]) => {
     new Promise((resolve, reject)=>{
         try{
             files.forEach(file => {
-                fs.copyFileSync(file.path, filesDirectory + file.name);
+                fs.copyFileSync(file.path, path.join(filesDirectory, file.name));
                 resolve(filesDirectory + file.name);
             })
         }
@@ -35,7 +37,7 @@ export const getBackgrounds = () => {
     createBackgroundFolder();
     
     const fileNames : string[] = fs.readdirSync(filesDirectory);
-    const paths = fileNames.map(file => filesDirectory + file);
+    const paths = fileNames.map(file => path.join(filesDirectory, file));
     const types = fileNames.map(file => {
         const fileExt = file.split(".")[1];
         

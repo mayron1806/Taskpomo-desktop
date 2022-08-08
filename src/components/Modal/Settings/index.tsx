@@ -104,7 +104,7 @@ const Settings = ({isOpen, closeModal, background, setBackground}: props) => {
                             <AiOutlineFile />
                             <p>
                                 Arraste e solte os arquivos aqui... <br />
-                                (Tamanho maximo de 10MB)
+                                (Tamanho maximo de 20MB)
                             </p>
                         </C.DropzoneText>
                     }

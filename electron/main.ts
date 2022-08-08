@@ -1,6 +1,5 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 let mainWindow: BrowserWindow | null;
-
 const path = require("path");
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
@@ -12,7 +11,7 @@ path.join(process.resourcesPath, 'assets');
 
 function createWindow () {
     mainWindow = new BrowserWindow({
-        icon: path.join(assetsPath, 'task-logo.png'),
+        icon: path.join(assetsPath, 'task-logo.ico'),
         title: "Taskpomo",
         width: 1100,
         height: 700,
@@ -24,14 +23,14 @@ function createWindow () {
             nodeIntegrationInWorker: true,  
             nodeIntegrationInSubFrames: true
         },
-        autoHideMenuBar: true
+        autoHideMenuBar: process.env.NODE_ENV === "production"
     })
 
-  mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
+    mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
 
-  mainWindow.on('closed', () => {
-    mainWindow = null
-  })
+    mainWindow.on('closed', () => {
+        mainWindow = null
+    })
 }
 
 async function registerListeners () {

@@ -10,12 +10,6 @@
     "make": "electron-forge make",
     "release": "electron-forge publish"
   },
-  "electronBuilder": {
-    "build": {
-        "productName": "Taskpomo",
-        "appId": "com.electron.app.my"
-    }
-  },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
@@ -73,11 +67,12 @@
   "config": {
     "forge": {
       "packagerConfig": {
-        "name": "Electron starter",
-        "executableName": "electron-starter",
-        "icon": "assets/icon",
+        "name": "Taskpomo",
+        "executableName": "taskpomo",
+        "icon": "assets/task-logo.ico",
         "extraResource": [
-          "assets"
+          "assets",
+          "backgrounds"
         ]
       },
       "plugins": [

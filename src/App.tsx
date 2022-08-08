@@ -7,14 +7,15 @@ import Wellcome from './components/Wellcome';
 import * as C from "./app.style";
 import { useLocalState } from './hooks/useLocalState';
 import { useEffect, useState } from 'react';
-import lightTheme from './themes/light';
 import ThemeType from './types/Theme';
 import { canNotify, getNotificationPermision } from './utils/Notification';
 import Settings from './components/Modal/Settings';
 import { IoImagesOutline } from 'react-icons/io5';
 import BackgroundType from './types/Background';
-import { getBackgrounds } from './services/File';
 import Background from './components/Background';
+import darkTheme from './themes/dark';
+import { getBackgrounds } from './services/File';
+
 
 export function App() {
     const [settingsIsOpen, setSettingsIsOpen] = useState<boolean>(false);
@@ -24,11 +25,12 @@ export function App() {
     const {
         state: currentTheme,
         setState: setCurrentTheme
-    } = useLocalState<ThemeType>("theme", lightTheme);
+    } = useLocalState<ThemeType>("theme", darkTheme);
+    
     const {
         state: currentBackground,
         setState: setCurrentBackground
-    } = useLocalState<BackgroundType>("background", {} as BackgroundType);
+    } = useLocalState<BackgroundType>("background", getBackgrounds()[0]);
    
     // se nao pode enviar noficação vai pedir permissão quando renderizar o app
     useEffect(()=>{ !canNotify() && getNotificationPermision()}, []);
